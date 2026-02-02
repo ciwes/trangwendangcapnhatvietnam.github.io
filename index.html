@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CLB TSA & Toán — Luyện tư duy, bứt điểm điểm số</title>
+  <meta name="description" content="Trang giới thiệu CLB TSA & Toán: lộ trình luyện, hoạt động, tài nguyên, đội ngũ và form đăng ký." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#070A12;
+      --card: rgba(255,255,255,.06);
+      --text:#EAF0FF;
+      --muted: rgba(234,240,255,.72);
+      --line: rgba(255,255,255,.12);
+
+      --a:#7C3AED;   /* purple */
+      --b:#06B6D4;   /* cyan */
+      --c:#F59E0B;   /* amber */
+      --d:#22C55E;   /* green */
+
+      --shadow: 0 16px 60px rgba(0,0,0,.55);
+      --r: 22px;
+      --max: 1150px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 10% 10%, rgba(124,58,237,.28), transparent 60%),
+        radial-gradient(1000px 650px at 90% 20%, rgba(6,182,212,.22), transparent 55%),
+        radial-gradient(900px 700px at 55% 110%, rgba(34,197,94,.14), transparent 60%),
+        var(--bg);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow-x:hidden;
+    }
+
+    a{color:inherit; text-decoration:none}
+    button, input, textarea, select{font:inherit}
+    ::selection{background: rgba(6,182,212,.35)}
+
+    .noise{
+      position:fixed; inset:-50%;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+      mix-blend-mode:overlay;
+      opacity:.18;
+      pointer-events:none;
+      animation: drift 16s linear infinite;
+      transform: translateZ(0);
+    }
+    @keyframes drift{
+      from{transform:translate3d(0,0,0)}
+      to{transform:translate3d(-12%, -10%, 0)}
+    }
+
+    .container{width:min(var(--max), calc(100% - 40px)); margin-inline:auto}
+
+    /* NAV */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: rgba(7,10,18,.55);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 14px 0; gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-family: "Space Grotesk", Inter, sans-serif;
+      letter-spacing:.2px;
+    }
+    .logo{
+      width:38px; height:38px; border-radius:12px;
+      background:
+        radial-gradient(12px 12px at 25% 25%, rgba(255,255,255,.35), transparent 60%),
+        conic-gradient(from 230deg, var(--a), var(--b), var(--d), var(--a));
+      box-shadow: 0 10px 30px rgba(6,182,212,.18);
+      position:relative;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:1px;
+      border-radius:11px;
+      background: rgba(7,10,18,.55);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .brand strong{font-size:16px}
+    .brand span{display:block; font-size:12px; color:var(--muted); margin-top:1px}
+
+    .nav-links{
+      display:flex; gap:18px; align-items:center;
+      color: rgba(234,240,255,.88);
+      font-size:14px;
+    }
+    .nav-links a{
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid transparent;
+      transition: .25s ease;
+    }
+    .nav-links a:hover{
+      border-color: rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      transform: translateY(-1px);
+    }
+
+    .cta{display:flex; gap:10px; align-items:center}
+    .btn{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 14px;
+      cursor:pointer;
+      transition:.25s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+      display:inline-flex; gap:10px; align-items:center;
+      font-weight:600;
+    }
+    .btn:hover{transform: translateY(-2px); background: rgba(255,255,255,.09)}
+    .btn.primary{
+      border-color: rgba(6,182,212,.35);
+      background: linear-gradient(135deg, rgba(6,182,212,.22), rgba(124,58,237,.20));
+      box-shadow: 0 14px 45px rgba(6,182,212,.12);
+    }
+    .btn.primary:hover{border-color: rgba(6,182,212,.55)}
+    .btn .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: conic-gradient(from 180deg, var(--b), var(--a), var(--d), var(--b));
+      box-shadow: 0 0 0 4px rgba(6,182,212,.10);
+    }
+
+    /* HERO */
+    .hero{padding: 46px 0 22px}
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 24px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){
+      .hero-grid{grid-template-columns: 1fr}
+      .nav-links{display:none}
+    }
+
+    .headline{
+      padding: 26px;
+      border-radius: var(--r);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .headline:before{
+      content:"";
+      position:absolute; inset:-120px -120px auto auto;
+      width:320px; height:320px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(6,182,212,.22), transparent 60%),
+        radial-gradient(circle at 65% 70%, rgba(34,197,94,.20), transparent 60%),
+        radial-gradient(circle at 55% 30%, rgba(124,58,237,.20), transparent 60%);
+      transform: rotate(20deg);
+      filter: blur(2px);
+    }
+    .kicker{
+      display:flex; gap:10px; align-items:center;
+      color: rgba(234,240,255,.86);
+      font-weight:600;
+      font-size:14px;
+      flex-wrap:wrap;
+    }
+    .pill{
+      padding:6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color: rgba(234,240,255,.92);
+    }
+    h1{
+      margin: 14px 0 10px;
+      font-family: "Space Grotesk", Inter, sans-serif;
+      font-size: clamp(34px, 4.2vw, 54px);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+    }
+    .lead{
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 62ch;
+    }
+    .hero-actions{display:flex; gap:12px; margin-top:18px; flex-wrap:wrap}
+    .hero-stats{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top: 22px;
+    }
+    @media (max-width: 520px){ .hero-stats{grid-template-columns: 1fr} }
+
+    .stat{
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .stat b{
+      font-family: "Space Grotesk", Inter, sans-serif;
+      font-size: 18px;
+      display:block;
+    }
+    .stat span{color:var(--muted); font-size:13px}
+
+    /* Showcase */
+    .showcase{
+      border-radius: var(--r);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:flex; flex-direction:column;
+    }
+    .showcase-top{
+      padding:18px 18px 12px;
+      display:flex; justify-content:space-between; align-items:flex-start;
+      gap:10px;
+    }
+    .showcase-top h3{
+      margin:0; font-family:"Space Grotesk", Inter, sans-serif; font-size:18px;
+    }
+    .badge{
+      font-size:12px;
+      color: rgba(234,240,255,.84);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      padding: 6px 10px;
+      border-radius: 999px;
+      white-space:nowrap;
+    }
+    .grid-images{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:12px;
+      padding: 0 18px 18px;
+      flex:1;
+    }
+    .img-card{
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+      position:relative;
+      min-height: 180px;
+    }
+    .img-card img{
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      filter: saturate(1.05) contrast(1.05);
+      transform: scale(1.02);
+    }
+    .img-card:after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, transparent 55%, rgba(7,10,18,.75));
+      pointer-events:none;
+    }
+    .img-label{
+      position:absolute; left:14px; bottom:12px; right:14px;
+      display:flex; justify-content:space-between; gap:10px; align-items:flex-end;
+      z-index:2;
+    }
+    .img-label b{font-size:13px}
+    .img-label span{font-size:12px; color:rgba(234,240,255,.72)}
+    .mini{display:grid; grid-template-rows: 1fr 1fr; gap:12px}
+
+    /* Sections */
+    section{padding: 26px 0}
+    .section-title{
+      display:flex; justify-content:space-between; align-items:end; gap:14px;
+      margin-bottom: 14px;
+    }
+    .section-title h2{
+      margin:0;
+      font-family:"Space Grotesk", Inter, sans-serif;
+      font-size: 24px;
+      letter-spacing:-.01em;
+    }
+    .section-title p{margin:0; color:var(--muted); max-width:76ch}
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .card{
+      grid-column: span 4;
+      padding: 18px;
+      border-radius: var(--r);
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: 0 12px 40px rgba(0,0,0,.22);
+      position:relative;
+      overflow:hidden;
+    }
+    .card:before{
+      content:"";
+      position:absolute; inset:auto -40px -40px auto;
+      width:160px; height:160px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(6,182,212,.25), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(34,197,94,.18), transparent 60%);
+      transform: rotate(10deg);
+      opacity:.75;
+    }
+    .card h3{margin:0 0 8px; font-family:"Space Grotesk", Inter, sans-serif}
+    .card p{margin:0; color:var(--muted); line-height:1.6; font-size:14px}
+
+    .icon{
+      width:42px; height:42px; border-radius: 16px;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      margin-bottom: 10px;
+    }
+    .icon svg{opacity:.92}
+
+    @media (max-width: 920px){ .card{grid-column: span 6} }
+    @media (max-width: 560px){ .card{grid-column: span 12} }
+
+    /* Timeline */
+    .timeline{
+      border-radius: var(--r);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      overflow:hidden;
+    }
+    .tl-row{
+      display:grid;
+      grid-template-columns: 170px 1fr;
+      gap:14px;
+      padding: 16px 18px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .tl-row:first-child{border-top:none}
+    .tl-date{
+      color: rgba(234,240,255,.85);
+      font-weight:700;
+      font-family:"Space Grotesk", Inter, sans-serif;
+    }
+    .tl-row b{display:block; margin-bottom:4px}
+    .tl-row span{color:var(--muted); font-size:14px; line-height:1.6}
+    @media (max-width: 560px){ .tl-row{grid-template-columns:1fr} }
+
+    /* Resources */
+    .resource{
+      grid-column: span 6;
+      padding: 18px;
+      border-radius: var(--r);
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: 0 12px 40px rgba(0,0,0,.22);
+    }
+    .resource h3{margin:0 0 10px; font-family:"Space Grotesk", Inter, sans-serif}
+    .list{
+      display:grid;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .item{
+      display:flex; justify-content:space-between; gap:12px; align-items:flex-start;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(7,10,18,.30);
+      transition: .2s ease;
+    }
+    .item:hover{transform: translateY(-2px); background: rgba(255,255,255,.06)}
+    .item b{display:block}
+    .item span{display:block; color:var(--muted); font-size:13px; margin-top:3px}
+    .tag{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(234,240,255,.85);
+      white-space:nowrap;
+    }
+    @media (max-width: 920px){ .resource{grid-column: span 12} }
+
+    /* Team */
+    .team{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .member{
+      grid-column: span 3;
+      border-radius: var(--r);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      overflow:hidden;
+      transition:.25s ease;
+    }
+    .member:hover{transform: translateY(-3px); background: rgba(255,255,255,.07)}
+    .avatar{height: 160px; background: linear-gradient(135deg, rgba(124,58,237,.18), rgba(6,182,212,.14))}
+    .avatar img{width:100%; height:100%; object-fit:cover; display:block}
+    .member .info{padding: 14px 14px 16px}
+    .member b{display:block; font-family:"Space Grotesk", Inter, sans-serif}
+    .member span{display:block; color:var(--muted); font-size:13px; margin-top:4px}
+    .chips{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .chip{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(234,240,255,.85);
+    }
+    @media (max-width: 920px){ .member{grid-column: span 4} }
+    @media (max-width: 640px){ .member{grid-column: span 6} }
+    @media (max-width: 420px){ .member{grid-column: span 12} }
+
+    /* Form */
+    .form-wrap{
+      border-radius: var(--r);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .form-left{padding: 18px; border-right: 1px solid rgba(255,255,255,.08)}
+    .form-left h3{margin:0 0 8px; font-family:"Space Grotesk", Inter, sans-serif}
+    .form-left p{margin:0; color:var(--muted); line-height:1.6; font-size:14px}
+    .form-right{padding:18px}
+    form{display:grid; gap:10px}
+    .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    label{font-size:13px; color: rgba(234,240,255,.82)}
+    input, textarea, select{
+      width:100%;
+      margin-top:6px;
+      padding: 11px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(7,10,18,.35);
+      color: var(--text);
+      outline:none;
+      transition:.2s ease;
+    }
+    input:focus, textarea:focus, select:focus{
+      border-color: rgba(6,182,212,.45);
+      box-shadow: 0 0 0 4px rgba(6,182,212,.10);
+    }
+    textarea{min-height: 110px; resize: vertical}
+    .form-actions{display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top: 4px}
+    .hint{color:var(--muted); font-size:12px}
+
+    @media (max-width: 920px){
+      .form-wrap{grid-template-columns:1fr}
+      .form-left{border-right:none; border-bottom:1px solid rgba(255,255,255,.08)}
+      .row{grid-template-columns:1fr}
+    }
+
+    /* Footer */
+    footer{
+      padding: 26px 0 36px;
+      color: rgba(234,240,255,.70);
+      border-top: 1px solid rgba(255,255,255,.08);
+      margin-top: 10px;
+    }
+    .foot{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap}
+    .social{display:flex; gap:10px; flex-wrap:wrap}
+    .social a{
+      padding:8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      transition:.2s ease;
+      font-size:13px;
+    }
+    .social a:hover{transform: translateY(-2px); background: rgba(255,255,255,.07)}
+
+    .divider{
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+      margin: 10px 0 0;
+    }
+
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
+  </style>
+</head>
+
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Về đầu trang">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <strong>CLB TSA & Toán</strong>
+          <span>Think sharper • Solve faster</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Điều hướng">
+        <a href="#about">Giới thiệu</a>
+        <a href="#tracks">Lộ trình</a>
+        <a href="#resources">Tài nguyên</a>
+        <a href="#team">Đội ngũ</a>
+        <a href="#join">Đăng ký</a>
+      </nav>
+
+      <div class="cta">
+        <a class="btn" href="#resources"><span class="dot" aria-hidden="true"></span> Tài nguyên</a>
+        <a class="btn primary" href="#join">Vào CLB</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="top" class="hero">
+    <div class="container hero-grid">
+      <section class="headline" aria-label="Giới thiệu nhanh">
+        <div class="kicker">
+          <span class="pill">TSA • Toán • Logic</span>
+          <span class="pill">Luyện đề mỗi tuần</span>
+          <span class="pill">Study group</span>
+        </div>
+
+        <h1>Luyện TSA & Toán<br/>theo lộ trình “tư duy — tốc độ — chiến thuật”.</h1>
+
+        <p class="lead">
+          CLB tụi mình tập trung vào <b>TSA (Problem Solving + Critical Thinking)</b> và <b>Toán</b>:
+          xây nền vững, luyện kỹ năng nhanh, và tối ưu chiến thuật làm bài để bứt điểm điểm số.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="#join">Đăng ký tham gia</a>
+          <a class="btn" href="#tracks">Xem lộ trình</a>
+        </div>
+
+        <div class="hero-stats" role="list" aria-label="Điểm nổi bật">
+          <div class="stat" role="listitem">
+            <b>2 buổi/tuần</b>
+            <span>luyện TSA + Toán theo chủ đề</span>
+          </div>
+          <div class="stat" role="listitem">
+            <b>Mock test</b>
+            <span>định kỳ + review chi tiết</span>
+          </div>
+          <div class="stat" role="listitem">
+            <b>Bank đề</b>
+            <span>câu hỏi phân cấp độ khó</span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="showcase" aria-label="Ảnh hoạt động">
+        <div class="showcase-top">
+          <div>
+            <h3>Không khí luyện thi</h3>
+            <div style="color:var(--muted); font-size:13px; margin-top:4px;">(Ảnh bạn tự thay vào)</div>
+          </div>
+          <div class="badge">#TSAStudyClub</div>
+        </div>
+
+        <div class="grid-images">
+          <div class="img-card">
+            <!-- THAY ẢNH 1 -->
+            <img src="./images/tsa-1.jpg" alt="Ảnh hoạt động TSA 1 (tự thêm)" />
+            <div class="img-label">
+              <div>
+                <b>Problem Solving</b>
+                <span>pattern • reasoning • speed</span>
+              </div>
+              <span class="pill">TSA</span>
+            </div>
+          </div>
+
+          <div class="mini">
+            <div class="img-card">
+              <!-- THAY ẢNH 2 -->
+              <img src="./images/tsa-2.jpg" alt="Ảnh hoạt động TSA 2 (tự thêm)" />
+              <div class="img-label">
+                <div>
+                  <b>Math Clinic</b>
+                  <span>chữa bài theo lỗi</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="img-card">
+              <!-- THAY ẢNH 3 -->
+              <img src="./images/tsa-3.jpg" alt="Ảnh hoạt động TSA 3 (tự thêm)" />
+              <div class="img-label">
+                <div>
+                  <b>Mock test</b>
+                  <span>đo tiến bộ</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="section-title">
+        <div>
+          <h2>CLB phù hợp với ai?</h2>
+          <p>Bạn có thể bắt đầu từ mức cơ bản. Quan trọng nhất là thói quen luyện đều và biết sửa lỗi.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z" stroke="currentColor" stroke-width="1.6"/>
+            </svg>
+          </div>
+          <h3>Người mới bắt đầu</h3>
+          <p>Học lại nền tảng Toán + tư duy logic. Có “starter track” và checklist theo tuần.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M7 12h10M7 7h10M7 17h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Người cần tăng tốc</h3>
+          <p>Luyện dạng bài TSA “ăn điểm nhanh”, tối ưu phương pháp và rèn tốc độ làm bài.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="1.6" opacity=".9"/>
+            </svg>
+          </div>
+          <h3>Người muốn bứt điểm</h3>
+          <p>Mock test định kỳ, phân tích lỗi, và chiến thuật chọn câu để tối đa hoá điểm.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRACKS -->
+  <section id="tracks">
+    <div class="container">
+      <div class="section-title">
+        <div>
+          <h2>Lộ trình luyện (mẫu)</h2>
+          <p>Chia 2 nhánh chính: TSA và Toán. Mỗi tuần có bài tập + buổi review.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card" style="grid-column: span 6;">
+          <h3>🧩 Track TSA: Critical Thinking</h3>
+          <p>
+            Dạng bài thường gặp: suy luận, bảng/biểu, xác suất trực giác, tối ưu hoá, logic theo điều kiện.
+            Tập “nhìn ra pattern” và tránh bẫy.
+          </p>
+          <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="chip">Reasoning</span>
+            <span class="chip">Data/Charts</span>
+            <span class="chip">Logic</span>
+            <span class="chip">Speed drills</span>
+          </div>
+        </div>
+
+        <div class="card" style="grid-column: span 6;">
+          <h3>📐 Track Toán: Nền tảng → nâng cao</h3>
+          <p>
+            Đại số, hàm số, hình học, tổ hợp–xác suất (tuỳ theo level).
+            Trọng tâm: kỹ năng biến đổi nhanh, kiểm tra sai sót, mẹo thời gian.
+          </p>
+          <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="chip">Algebra</span>
+            <span class="chip">Geometry</span>
+            <span class="chip">Combinatorics</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline" role="list" aria-label="Timeline học kỳ">
+        <div class="tl-row" role="listitem">
+          <div class="tl-date">Tuần 1–2</div>
+          <div>
+            <b>Diagnostic test + sửa nền</b>
+            <span>Làm bài kiểm tra đầu vào, phân nhóm, thống kê lỗi phổ biến và lộ trình cá nhân.</span>
+          </div>
+        </div>
+        <div class="tl-row" role="listitem">
+          <div class="tl-date">Tuần 3–6</div>
+          <div>
+            <b>Drills theo dạng</b>
+            <span>Mỗi buổi 1 dạng trọng tâm + bài tập về nhà. Review theo “lỗi — cách sửa — cách nhớ”.</span>
+          </div>
+        </div>
+        <div class="tl-row" role="listitem">
+          <div class="tl-date">Tuần 7–8</div>
+          <div>
+            <b>Mock test #1</b>
+            <span>Làm full test + phân tích chiến thuật: chọn câu, quản lý thời gian, tránh bẫy.</span>
+          </div>
+        </div>
+        <div class="tl-row" role="listitem">
+          <div class="tl-date">Tuần 9–12</div>
+          <div>
+            <b>Mixed set + tăng tốc</b>
+            <span>Luyện đề trộn dạng, đặt mục tiêu tốc độ, tối ưu “độ chắc” trước “độ khó”.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESOURCES -->
+  <section id="resources">
+    <div class="container">
+      <div class="section-title">
+        <div>
+          <h2>Tài nguyên trong CLB</h2>
+          <p>Danh sách mẫu. Bạn đổi thành link Drive / Notion / Discord của bạn sau.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="resource">
+          <h3>📚 Bank bài tập</h3>
+          <div class="list">
+            <a class="item" href="#">
+              <div>
+                <b>Starter Pack (cơ bản)</b>
+                <span>logic, đại số cơ bản, set bài “đúng cách làm”</span>
+              </div>
+              <span class="tag">PDF</span>
+            </a>
+            <a class="item" href="#">
+              <div>
+                <b>Speed Drills</b>
+                <span>5–10 phút/set để tăng tốc (TSA + Toán)</span>
+              </div>
+              <span class="tag">Practice</span>
+            </a>
+            <a class="item" href="#">
+              <div>
+                <b>Hard Set</b>
+                <span>bài nâng cao cho đội tuyển / bứt điểm</span>
+              </div>
+              <span class="tag">Advanced</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="resource">
+          <h3>🧠 Review & chiến thuật</h3>
+          <div class="list">
+            <a class="item" href="#">
+              <div>
+                <b>Checklist lỗi thường gặp</b>
+                <span>nhầm điều kiện, sai dấu, đọc thiếu dữ kiện, bẫy thời gian</span>
+              </div>
+              <span class="tag">Guide</span>
+            </a>
+            <a class="item" href="#">
+              <div>
+                <b>Framework phân tích bài</b>
+                <span>đọc đề → chọn hướng → kiểm tra → tối ưu</span>
+              </div>
+              <span class="tag">Method</span>
+            </a>
+            <a class="item" href="#">
+              <div>
+                <b>Lịch Mock test</b>
+                <span>đăng ký ca thi, chấm & nhận feedback</span>
+              </div>
+              <span class="tag">Schedule</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team">
+    <div class="container">
+      <div class="section-title">
+        <div>
+          <h2>Đội ngũ / Mentor</h2>
+          <p>Thay ảnh, tên, vai trò. (Ảnh: <code>./images/mentor-*.jpg</code>)</p>
+        </div>
+      </div>
+
+      <div class="team">
+        <div class="member">
+          <div class="avatar">
+            <img src="./images/mentor-1.jpg" alt="Ảnh mentor 1 (tự thêm)">
+          </div>
+          <div class="info">
+            <b>Mentor A</b>
+            <span>TSA • Reasoning</span>
+            <div class="chips">
+              <span class="chip">Logic</span><span class="chip">Speed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="member">
+          <div class="avatar">
+            <img src="./images/mentor-2.jpg" alt="Ảnh mentor 2 (tự thêm)">
+          </div>
+          <div class="info">
+            <b>Mentor B</b>
+            <span>Toán • Algebra</span>
+            <div class="chips">
+              <span class="chip">Algebra</span><span class="chip">Tricks</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="member">
+          <div class="avatar">
+            <img src="./images/mentor-3.jpg" alt="Ảnh mentor 3 (tự thêm)">
+          </div>
+          <div class="info">
+            <b>Mentor C</b>
+            <span>Toán • Geometry</span>
+            <div class="chips">
+              <span class="chip">Geometry</span><span class="chip">Proof</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="member">
+          <div class="avatar">
+            <img src="./images/mentor-4.jpg" alt="Ảnh mentor 4 (tự thêm)">
+          </div>
+          <div class="info">
+            <b>Mentor D</b>
+            <span>Operations • Mock test</span>
+            <div class="chips">
+              <span class="chip">Review</span><span class="chip">Plan</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN -->
+  <section id="join">
+    <div class="container">
+      <div class="section-title">
+        <div>
+          <h2>Đăng ký tham gia CLB</h2>
+          <p>Form demo (không gửi đi đâu). Bạn có thể thay bằng Google Form / backend.</p>
+        </div>
+      </div>
+
+      <div class="form-wrap">
+        <div class="form-left">
+          <h3>Vào CLB TSA & Toán</h3>
+          <p>
+            Cho tụi mình biết mục tiêu của bạn (TSA/Toán), level hiện tại và thời gian bạn có thể học mỗi tuần.
+            CLB sẽ xếp nhóm và gửi tài liệu phù hợp.
+          </p>
+          <div style="margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="chip">Study group</span>
+            <span class="chip">Mock test</span>
+            <span class="chip">Chữa bài</span>
+            <span class="chip">Bank đề</span>
+          </div>
+        </div>
+
+        <div class="form-right">
+          <form id="joinForm">
+            <div class="row">
+              <div>
+                <label>Họ và tên
+                  <input required name="name" placeholder="VD: Nguyễn Văn A" />
+                </label>
+              </div>
+              <div>
+                <label>Email
+                  <input required type="email" name="email" placeholder="ban@email.com" />
+                </label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label>Mục tiêu chính
+                  <select name="goal">
+                    <option>TSA</option>
+                    <option>Toán</option>
+                    <option>Cả TSA & Toán</option>
+                  </select>
+                </label>
+              </div>
+              <div>
+                <label>Level hiện tại
+                  <select name="level">
+                    <option>Mới bắt đầu</option>
+                    <option>Cơ bản</option>
+                    <option>Trung bình</option>
+                    <option>Khá</option>
+                    <option>Nâng cao</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label>Mục tiêu điểm / mong muốn
+                <textarea name="target" placeholder="VD: muốn tăng tốc phần reasoning, cải thiện xác suất, luyện đề đều..."></textarea>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn primary" type="submit">Gửi đăng ký</button>
+              <span class="hint" id="formHint">Tip: đổi các nút tài nguyên thành link Drive/Notion.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div>
+        <div style="font-family:'Space Grotesk', Inter, sans-serif; font-weight:700;">
+          CLB TSA & Toán
+        </div>
+        <div style="margin-top:6px;">© 2026 • Think sharper • Solve faster</div>
+      </div>
+
+      <div class="social" aria-label="Liên kết">
+        <a href="#" title="Facebook">Facebook</a>
+        <a href="#" title="Discord">Discord</a>
+        <a href="#" title="Notion">Notion</a>
+        <a href="#" title="Email">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        const el = document.querySelector(id);
+        if(!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Demo submit
+    const form = document.getElementById('joinForm');
+    const hint = document.getElementById('formHint');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      hint.textContent = "Đã nhận đăng ký (demo). Bạn có thể nối Google Form/backend để gửi thật.";
+      hint.style.color = "rgba(234,240,255,.92)";
+      form.reset();
+    });
+  </script>
+</body>
+</html>
